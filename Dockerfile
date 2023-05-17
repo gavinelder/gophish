@@ -10,11 +10,11 @@ RUN gulp
 
 
 # Build Golang binary
-FROM golang:1.15.2 AS build-golang
+FROM golang:1.20.4 AS build-golang
 
 WORKDIR /go/src/github.com/gophish/gophish
 COPY . .
-RUN go get -v && go build -v
+RUN go mod tidy && go build -v
 
 
 # Runtime container
@@ -42,4 +42,4 @@ RUN touch config.json.tmp
 
 EXPOSE 3333 8080 8443 80
 
-CMD ["./docker/run.sh"]
+ENTRYPOINT ["./docker/run.sh"]
